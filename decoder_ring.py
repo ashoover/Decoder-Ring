@@ -1,7 +1,11 @@
 import datetime
 import random
+from tkinter import *
+import tkinter as tk
 
-print("Welcome to the Decoder Ring")
+
+screen_height = '600'
+screen_width = '800'
 
 profit_centers = {
     'A': 'Administration',
@@ -44,16 +48,72 @@ def year_code():
     return c_year_split[3]
 
 
+pc_list = profit_centers
+
+
 def decoder_ring(current_code):
+    decode_dict = {}
     code_list = list(current_code)
-    dc_profit_center = str(code_list[0:2])
 
-    list_cuid = str(code_list[0,1])
+    list_profit_center = code_list[2]
+    full_profit_center = profit_centers[list_profit_center]
+    list_cuid = "".join(code_list[0:2])
+    full_cuid = cuid[list_cuid]
+    list_year = "201" + (code_list[3])
+    list_uid = "".join(code_list[4:])
 
-    print('CUID of client CD: {}'.format{})
-    print('Profit Center : {}'.format(dc_profit_center))
-    print(''.format{})
+    dash = '\n' + '----------------------------------' + '\n'
+
+    print(dash)
+    print('Current Code   : {}'.format(current_code))
+    print('CUID of client : {}'.format(full_cuid))
+    print('Profit Center  : {}'.format(full_profit_center))
+    print('Project Year   : {}'.format(list_year))
+    print('Project Number : {}'.format(list_uid))
+    print(dash)
+
+    decode_dict['cuid'] = full_cuid
+    decode_dict['fullpc'] = full_profit_center
+    decode_dict['yr'] = list_year
+    decode_dict['pn'] = list_uid
+
+    print(decode_dict)
+    return decode_dict
 
 
 ran_num = random_number()
 y_code = year_code()
+
+
+# GUI Setups
+
+def main_app():
+    root = Tk()
+
+    ccode = decoder_ring(current_code='G3O88675')
+    clientid = 'Client ID      : ' + ccode['cuid']
+    pcenter = 'Profit Center  : ' + ccode['fullpc']
+    year = 'Project Year   : ' + ccode['yr']
+    pnum = 'Project Number : ' + ccode['pn']
+
+    time_button = tk.Button(root, text="Decode", command=ccode)
+    canvas = Canvas(root, width=screen_width, height=screen_height)
+    label1 = Label(root, text=clientid)
+    label2 = Label(root, text=pcenter)
+    label3 = Label(root, text=year)
+    label4 = Label(root, text=pnum)
+
+    time_button.pack()
+    label1.pack()
+    label2.pack()
+    label3.pack()
+    label4.pack()
+    canvas.pack()
+
+    root.mainloop()
+
+
+# Temp Area
+decoder_ring('G3O88675')
+main_app()
+
